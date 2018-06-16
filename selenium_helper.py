@@ -1,6 +1,5 @@
 import os
 import codecs
-import json
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -17,7 +16,7 @@ chrome_options.add_argument("--window-size=1920x1080")
 chrome_driver = os.path.join(os.getcwd(), "chromedriver_linux64/chromedriver")
 driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=chrome_driver)
 
-delay = 30 # seconds
+delay = 30  # seconds
 
 
 def write_debug_info(filename):
@@ -33,7 +32,7 @@ def get_chapters_list_html(url):
     driver.get(url)
     write_debug_info('chapter_list1')
     try:
-        myElem = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CLASS_NAME, 'listing')))
+        WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CLASS_NAME, 'listing')))
         print "Page is ready!"
         write_debug_info('chapter_list2')
         return driver.page_source
@@ -45,8 +44,9 @@ def get_image_urls(url):
     driver.get(url)
     write_debug_info('chapter_details1')
     try:
-        myElem = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.ID, 'divImage')))
+        WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.ID, 'divImage')))
         write_debug_info('chapter_details2')
         return driver.execute_script("return lstImages")
     except TimeoutException:
         print "Loading took too much time! -- divImage"
+    return []
